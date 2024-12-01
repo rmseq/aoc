@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# Function to print usage instructions and information about the session cookie
 print_usage() {
   echo "Usage: fetch_input.sh [--force|-f] <year> <day>"
   echo
