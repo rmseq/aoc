@@ -12,8 +12,7 @@ def solve_part2(left: list[int], right: list[int]) -> int:
 
 if __name__ == "__main__":
     with open("../../input/2024/1.txt") as f:
-        data = [list(map(int, line.split())) for line in f]
-        left, right = zip(*data)
+        left, right = zip(*[map(int, line.split()) for line in f])
 
-    print(solve_part1(list(left), list(right)))
-    print(solve_part2(list(left), list(right)))
+    print(solve_part1(left, right))
+    print(solve_part2(left, right))
