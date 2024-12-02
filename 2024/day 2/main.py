@@ -13,7 +13,6 @@ def solve_part2(reports: list[list[int]]) -> int:
 
 if __name__ == "__main__":
     with open("../../input/2024/2.txt") as f:
-        r = [[int(e) for e in l.split()] for l in f]
-
-        print(solve_part1(r))
-        print(solve_part2(r))
+        r = [list(map(int, l.split())) for l in f]
+    print(solve_part1(r))
+    print(solve_part2(r))
