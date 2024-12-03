@@ -19,7 +19,7 @@ def solve_part2(program: str) -> int:
 
 
 if __name__ == "__main__":
-    with open("../../input/2024/3_example.txt") as f:
+    with open("../../input/2024/3.txt") as f:
         p = f.read()
 
     print(solve_part1(p))
