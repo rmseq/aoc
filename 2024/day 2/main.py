@@ -1,6 +1,6 @@
 def is_safe(r: list[int]) -> bool:
     trend = r[0] - r[1]
-    return all(0 < abs(r[i] - r[i + 1]) <= 3 and (r[i] - r[i + 1]) * trend > 0 for i in range(len(r) - 1))
+    return all(0 != abs(r[i] - r[i + 1]) <= 3 and (r[i] - r[i + 1]) * trend > 0 for i in range(len(r) - 1))
 
 
 def solve_part1(reports: list[list[int]]) -> int:
@@ -14,5 +14,6 @@ def solve_part2(reports: list[list[int]]) -> int:
 if __name__ == "__main__":
     with open("../../input/2024/2.txt") as f:
         r = [list(map(int, l.split())) for l in f]
+
     print(solve_part1(r))
     print(solve_part2(r))
