@@ -3,9 +3,8 @@ from functools import cmp_to_key
 from typing import Callable
 
 
-def make_cmp(rules: dict[int, list[int]]):
-    """Returns a comparison function that sorts elements based on the provided rules.
-    This function is a closure over the rules."""
+def make_cmp(rules: dict[int, list[int]]) -> Callable[[int, int], int]:
+    """Returns a comparison function that sorts elements based on the provided rules."""
     return lambda a, b: -1 if b in rules[a] else 1 if a in rules[b] else 0
 
 
@@ -32,5 +31,6 @@ if __name__ == "__main__":
 
     u = [list(map(int, update.split(","))) for update in s2.split()]
 
-    print(solve_part1(u, make_cmp(r)))
-    print(solve_part2(u, make_cmp(r)))
+    cmp = make_cmp(r)
+    print(solve_part1(u, cmp))
+    print(solve_part2(u, cmp))
