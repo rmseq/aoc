@@ -3,7 +3,7 @@ from functools import cmp_to_key
 from typing import Callable
 
 
-def make_cmp(rules: dict[int, list[int]]) -> Callable[[int, int], int]:
+def make_cmp(rules: dict[int, set[int]]) -> Callable[[int, int], int]:
     """Returns a comparison function that sorts elements based on the provided rules."""
     return lambda a, b: -1 if b in rules[a] else 1 if a in rules[b] else 0
 
@@ -25,9 +25,9 @@ if __name__ == "__main__":
     with open("../../input/2024/5.txt") as f:
         s1, s2 = f.read().split("\n\n")
 
-    r = defaultdict(list)  # returns empty list if key not found
+    r = defaultdict(set)  # returns empty list if key not found
     for x, y in (rule.split("|") for rule in s1.split()):
-        r[int(x)].append(int(y))
+        r[int(x)].add(int(y))
 
     u = [list(map(int, update.split(","))) for update in s2.split()]
 
