@@ -1,8 +1,8 @@
 from typing import Callable
 
 
-def f(curr: int, rest: list[int], ops: list[Callable[[int, int], int]], res: int) -> bool:
-    return curr == res if not rest else any(f(op(curr, rest[0]), rest[1:], ops, res) for op in ops)
+def f(curr: int, vals: list[int], ops: list[Callable[[int, int], int]], res: int) -> bool:
+    return curr == res if not vals else any(f(op(curr, vals[0]), vals[1:], ops, res) for op in ops)
 
 
 def solve_part1(eqs: list[(int, list[int])]) -> int:
