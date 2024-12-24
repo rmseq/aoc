@@ -79,9 +79,15 @@ fi
 
 mkdir -p "input/${YEAR}/"
 
-curl -s "https://adventofcode.com/${YEAR}/day/${DAY}/input" \
+response_code=$(curl -s "https://adventofcode.com/${YEAR}/day/${DAY}/input" \
   -H "cookie: session=$AOC_SESSION" \
-  -o "input/${YEAR}/${DAY}.txt"
+  -o "input/${YEAR}/${DAY}.txt" \
+  -w "%{response_code}")
+if [ $response_code != "200" ]; then
+  echo "Failed to fetch input for day ${DAY} of ${YEAR}, response code: $response_code"
+  echo "Make sure the session cookie is correct and has not expired"
+  exit 1
+fi
 
 # Print success message
 echo "Fetched input for day ${DAY} of ${YEAR} to input/${YEAR}/${DAY}.txt"
