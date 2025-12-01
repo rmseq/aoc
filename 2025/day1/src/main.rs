@@ -17,24 +17,39 @@ fn main() {
 }
 
 fn solve_part1(instructions: &[(bool, u32)], initial_pos: u32) -> usize {
-    let mut dial = Dial {
-        pos: initial_pos % 100,
-    };
     instructions
         .iter()
-        .map(|(clockwise, ticks)| dial.rotate(*clockwise, *ticks).0)
-        .filter(|pos| pos == &0)
-        .count()
+        .fold(
+            (
+                Dial {
+                    pos: initial_pos % 100,
+                },
+                0usize,
+            ),
+            |(mut dial, count), (clockwise, ticks)| {
+                let (pos, _) = dial.rotate(*clockwise, *ticks);
+                (dial, count + (pos == 0) as usize)
+            },
+        )
+        .1
 }
 
 fn solve_part2(instructions: &[(bool, u32)], initial_pos: u32) -> usize {
-    let mut dial = Dial {
-        pos: initial_pos % 100,
-    };
     instructions
         .iter()
-        .map(|(clockwise, ticks)| dial.rotate(*clockwise, *ticks).1)
-        .sum()
+        .fold(
+            (
+                Dial {
+                    pos: initial_pos % 100,
+                },
+                0usize,
+            ),
+            |(mut dial, sum), (clockwise, ticks)| {
+                let (_, revs) = dial.rotate(*clockwise, *ticks);
+                (dial, sum + revs)
+            },
+        )
+        .1
 }
 
 struct Dial {
