@@ -1,7 +1,7 @@
-use std::{collections::VecDeque, fs};
+use std::fs;
 
 fn main() {
-    let input: VecDeque<(bool, u32)> = fs::read_to_string("input/2025/1.txt")
+    let input: Vec<(bool, u32)> = fs::read_to_string("input/2025/1.txt")
         .expect("failed to read input")
         .lines()
         .map(|line| {
@@ -12,51 +12,55 @@ fn main() {
         })
         .collect();
 
-    println!("{}", solve_part1(input.clone(), 50));
-    println!("{}", solve_part2(input, 50));
+    println!("{}", solve_part1(&input, 50));
+    println!("{}", solve_part2(&input, 50));
 }
 
-fn solve_part1(mut rots: VecDeque<(bool, u32)>, start_at: u32) -> usize {
-    if rots.is_empty() {
-        return 0;
-    }
-
-    let (clockwise, ticks) = rots.pop_front().unwrap();
-    let start_at = if clockwise {
-        ((start_at % 100) + (ticks % 100)) % 100
-    } else {
-        ((start_at % 100) + 100 - (ticks % 100)) % 100
+fn solve_part1(instructions: &[(bool, u32)], initial_pos: u32) -> usize {
+    let mut dial = Dial {
+        pos: initial_pos % 100,
     };
-
-    if start_at == 0 {
-        return 1 + solve_part1(rots, start_at);
-    }
-    solve_part1(rots, start_at)
+    instructions
+        .iter()
+        .map(|(clockwise, ticks)| dial.rotate(*clockwise, *ticks).0)
+        .filter(|pos| pos == &0)
+        .count()
 }
 
-fn solve_part2(rots: VecDeque<(bool, u32)>, start_at: u32) -> usize {
-    let mut hits = 0;
-    let mut pos = start_at % 100;
-    
-    for (clockwise, ticks) in rots {
-        let first = if pos == 0 {
-            100
-        } else if clockwise {
-            100 - pos
-        } else {
-            pos
+fn solve_part2(instructions: &[(bool, u32)], initial_pos: u32) -> usize {
+    let mut dial = Dial {
+        pos: initial_pos % 100,
+    };
+    instructions
+        .iter()
+        .map(|(clockwise, ticks)| dial.rotate(*clockwise, *ticks).1)
+        .sum()
+}
+
+struct Dial {
+    pos: u32,
+}
+
+impl Dial {
+    fn rotate(&mut self, clockwise: bool, amount: u32) -> (u32, usize) {
+        let first = match (self.pos, clockwise) {
+            (0, _) => 100,
+            (pos, true) => 100 - pos,
+            (pos, false) => pos,
         };
 
-        if ticks >= first {
-            hits += 1 + ((ticks - first) / 100) as usize;
-        }
-
-        pos = if clockwise {
-            (pos + (ticks % 100)) % 100
+        let revs = if amount >= first {
+            1 + ((amount - first) / 100) as usize
         } else {
-            (pos + 100 - (ticks % 100)) % 100
+            0
         };
+
+        self.pos = if clockwise {
+            (self.pos + amount) % 100
+        } else {
+            (self.pos + 100 - (amount % 100)) % 100
+        };
+
+        (self.pos, revs)
     }
-
-    hits
 }
