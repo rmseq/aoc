@@ -163,3 +163,8 @@ cython_debug/
 
 # Puzzles' input files
 input/
+
+# Rust
+**/target/
+/target
+
