@@ -20,12 +20,12 @@ fn main() {
 
 fn is_palindrome(n: u64) -> bool {
     let s = n.to_string();
-    if s.len() % 2 != 0 {
+    if !s.len().is_multiple_of(2) {
         return false;
     }
 
     let half = s.len() / 2;
-    &s[..half] == &s[half..]
+    s[..half] == s[half..]
 }
 
 fn is_repeated(n: u64) -> bool {
