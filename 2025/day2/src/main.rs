@@ -18,8 +18,8 @@ fn main() {
     println!("{}", solve_part2(&ranges));
 }
 
-fn is_palindrome(n: u64) -> bool {
-    let s = n.to_string();
+fn is_doubled(n: u64) -> bool {
+    let s: String = n.to_string();
     if !s.len().is_multiple_of(2) {
         return false;
     }
@@ -36,7 +36,7 @@ fn is_repeated(n: u64) -> bool {
 fn solve_part1(ranges: &[(u64, u64)]) -> u64 {
     ranges
         .iter()
-        .map(|&(a, b)| (a..=b).filter(|&n| is_palindrome(n)).sum::<u64>())
+        .map(|&(a, b)| (a..=b).filter(|&n| is_doubled(n)).sum::<u64>())
         .sum()
 }
 
