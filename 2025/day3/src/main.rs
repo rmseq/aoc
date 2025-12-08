@@ -1,4 +1,4 @@
-use std::{fs, u8};
+use std::fs;
 
 fn main() {
     let input = fs::read_to_string("input/2025/3.txt").expect("failed to read input");
@@ -27,9 +27,9 @@ fn solve_part2(banks: &[Vec<u8>]) -> u64 {
 fn max_voltage(batteries: &[u8], n: usize) -> u64 {
     let mut stack: Vec<u8> = Vec::with_capacity(n);
     for (i, &b) in batteries.iter().enumerate() {
-        while !stack.is_empty() 
+        while !stack.is_empty()
             && stack.len() + (batteries.len() - i) > n // enough remaining batteries to fill the stack
-            && *stack.last().unwrap() < b // current battery is better than the last in the stack
+            && *stack.last().unwrap() < b
         {
             stack.pop();
         }
