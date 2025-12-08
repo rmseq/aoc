@@ -2,11 +2,11 @@ use std::env;
 use std::fs;
 use std::thread;
 use std::time::Duration;
-use utils::Matrix;
+use utils::matrix::Matrix;
 
 fn main() {
     let mut visualize = false;
-    let mut speed = 100u64; // default speed
+    let mut speed = 100u64; // default speed in ms
     {
         let mut args = env::args().skip(1);
         while let Some(arg) = args.next() {
@@ -17,7 +17,7 @@ fn main() {
                         && let Ok(ms) = next.parse::<u64>()
                     {
                         speed = ms;
-                        args.next(); // consume the number
+                        args.next();
                     }
                 }
                 _ => {}
@@ -70,7 +70,7 @@ pub fn solve_part2(mut grid: Matrix<char>, visualize: bool, speed_ms: u64) -> us
                 }
 
                 let neigh = grid.neighborhood(r, c, 1).unwrap();
-                if neigh.iter().filter(|&v| v == '@' || v == 'x').count() - 1 < 4 {
+                if neigh.iter().filter(|&v| v == '@').count() - 1 < 4 {
                     remove.push((r, c));
                 }
             }
